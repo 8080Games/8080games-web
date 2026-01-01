@@ -1,0 +1,6 @@
+[submodule "ClassicGames.Core"]
+	path = ClassicGames.Core
+	url = https://github.com/8080Games/ClassicGames.Core.git
+[submodule "ClassicGames.Games"]
+	path = ClassicGames.Games
+	url = https://github.com/8080Games/ClassicGames.Games.git

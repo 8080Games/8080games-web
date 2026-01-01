@@ -1,0 +1,29 @@
+@page "/blackjack"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Blackjack - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Blackjack"
+               Game="@gameEngine"
+               OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+
+    protected override void OnInitialized()
+    {
+        CreateNewGame();
+    }
+
+    private void CreateNewGame()
+    {
+        gameEngine = BlackjackGame.CreateGame();
+    }
+
+    private void HandleRestart()
+    {
+        CreateNewGame();
+        StateHasChanged();
+    }
+}

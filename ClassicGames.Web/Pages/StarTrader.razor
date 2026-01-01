@@ -1,0 +1,29 @@
+@page "/startrader"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Star Trader - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Star Trader"
+               Game="@gameEngine"
+               OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+
+    protected override void OnInitialized()
+    {
+        CreateNewGame();
+    }
+
+    private void CreateNewGame()
+    {
+        gameEngine = StarTraderGame.CreateGame();
+    }
+
+    private void HandleRestart()
+    {
+        CreateNewGame();
+        StateHasChanged();
+    }
+}

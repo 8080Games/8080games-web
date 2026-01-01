@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #00ff00;
+    min-height: 100vh;
+}
+
+a {
+    color: #00ff00;
+}
+
+#app {
+    min-height: 100vh;
+}
+
+.loading {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.loading::before {
+    content: "⏳ ";
+}
+
+.loading::after {
+    content: " Loading...";
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+#blazor-error-ui {
+    background: #8b0000;
+    bottom: 0;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.8);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    color: #fff;
+}
+
+#blazor-error-ui .dismiss {
+    cursor: pointer;
+    position: absolute;
+    right: 0.75rem;
+    top: 0.5rem;
+}
+
+.blazor-error-boundary {
+    background: #300;
+    border: 2px solid #f00;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.blazor-error-boundary::after {
+    content: "⚠️ An error occurred";
+    color: #ff0000;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}

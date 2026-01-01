@@ -1,0 +1,19 @@
+{
+  "name": "8080 Games - Classic BASIC Games Collection",
+  "short_name": "8080 Games",
+  "description": "Collection of classic BASIC games recreated for the web",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#00ff00",
+  "prefer_related_applications": false,
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

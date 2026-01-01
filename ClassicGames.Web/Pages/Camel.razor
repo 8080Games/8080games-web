@@ -1,0 +1,29 @@
+@page "/camel"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Camel - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Camel"
+               Game="@gameEngine"
+               OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+
+    protected override void OnInitialized()
+    {
+        CreateNewGame();
+    }
+
+    private void CreateNewGame()
+    {
+        gameEngine = CamelGame.CreateGame();
+    }
+
+    private void HandleRestart()
+    {
+        CreateNewGame();
+        StateHasChanged();
+    }
+}
