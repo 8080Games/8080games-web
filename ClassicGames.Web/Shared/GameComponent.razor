@@ -16,7 +16,8 @@
     <div class="game-output" @ref="outputDiv">
         @for (int i = 0; i < outputLines.Count; i++)
         {
-            <div data-line-index="@i">@outputLines[i]</div>
+            var needsAnimation = slowPrintEnabled && i >= animateFromIndex && animateFromIndex >= 0;
+            <div data-line-index="@i" class="@(needsAnimation ? "needs-typewriter" : "")">@outputLines[i]</div>
         }
     </div>
 
@@ -246,10 +247,8 @@
     {
         try
         {
-            await Task.Delay(10); // Give DOM time to render
-            await JS.InvokeVoidAsync("hideNewLines", animateFromIndex);
-            await Task.Delay(10); // Ensure hide completes
-            await JS.InvokeVoidAsync("animateTypewriter", animateFromIndex);
+            await Task.Delay(50); // Give DOM time to render
+            await JS.InvokeVoidAsync("animateTypewriter");
         }
         catch
         {
@@ -333,6 +332,10 @@
 
     .game-output div {
         margin: 0.25rem 0;
+    }
+
+    .game-output div.needs-typewriter {
+        visibility: hidden;
     }
 
     .game-input {

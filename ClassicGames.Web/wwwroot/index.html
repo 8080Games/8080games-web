@@ -27,38 +27,23 @@
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script>
         // Typewriter effect for game output
-        window.animateTypewriter = async function(startIndex) {
+        window.animateTypewriter = async function() {
             const outputDiv = document.querySelector('.game-output');
             if (!outputDiv) return;
 
-            const allDivs = outputDiv.querySelectorAll('div');
-            const divsToAnimate = Array.from(allDivs).slice(startIndex);
-
+            const divsToAnimate = outputDiv.querySelectorAll('div.needs-typewriter');
             const charsPerSecond = 30; // Adjust speed here
             const msPerChar = 1000 / charsPerSecond;
 
             for (const div of divsToAnimate) {
                 const fullText = div.textContent;
                 div.textContent = '';
-                div.style.visibility = 'visible'; // Make visible before animating
+                div.classList.remove('needs-typewriter'); // Show the div
 
                 for (let j = 0; j < fullText.length; j++) {
                     div.textContent += fullText[j];
                     await new Promise(resolve => setTimeout(resolve, msPerChar));
                 }
-            }
-        };
-
-        // Hide new lines until they're ready to animate
-        window.hideNewLines = function(startIndex) {
-            const outputDiv = document.querySelector('.game-output');
-            if (!outputDiv) return;
-
-            const allDivs = outputDiv.querySelectorAll('div');
-            const divsToHide = Array.from(allDivs).slice(startIndex);
-
-            for (const div of divsToHide) {
-                div.style.visibility = 'hidden';
             }
         };
     </script>
