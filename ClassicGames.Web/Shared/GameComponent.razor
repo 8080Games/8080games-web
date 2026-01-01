@@ -19,10 +19,11 @@
         <div class="game-input">
             <span class="prompt">@currentPrompt</span>
             <input @ref="inputElement"
-                   @bind="currentInput"
-                   @bind:event="oninput"
+                   value="@currentInput"
                    @onkeydown="HandleKeyDown"
+                   @oninput="HandleInput"
                    type="text"
+                   maxlength="@(isSingleChar ? 1 : 100)"
                    autofocus />
         </div>
     }
@@ -48,6 +49,7 @@
     private string currentPrompt = "> ";
     private bool needsInput = true;
     private bool gameOver = false;
+    private bool isSingleChar = false;
     private ElementReference inputElement;
     private ElementReference outputDiv;
 
@@ -65,18 +67,43 @@
 
     private async Task HandleKeyDown(KeyboardEventArgs e)
     {
-        if (e.Key == "Enter" && Game != null)
+        if (e.Key == "Enter" && Game != null && !isSingleChar)
         {
-            var input = currentInput;
-            outputLines.Add($"{currentPrompt}{input}");
-            currentInput = "";
-
-            var result = Game.ProcessInput(input);
-            ProcessGameOutput(result);
-
-            StateHasChanged();
-            await FocusInput();
+            await SubmitInput();
         }
+    }
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        currentInput = e.Value?.ToString() ?? "";
+
+        // Auto-submit for single character mode
+        if (isSingleChar && currentInput.Length > 0 && Game != null)
+        {
+            await SubmitInput();
+        }
+    }
+
+    private async Task SubmitInput()
+    {
+        if (Game == null) return;
+
+        var input = currentInput;
+        outputLines.Add($"{currentPrompt}{input}");
+        currentInput = "";
+
+        var result = Game.ProcessInput(input);
+        ProcessGameOutput(result);
+
+        StateHasChanged();
+
+        // Manually clear the input field for single char mode
+        if (isSingleChar)
+        {
+            await ClearInputField();
+        }
+
+        await FocusInput();
     }
 
     private void ProcessGameOutput(Engine.StateResult result)
@@ -114,6 +141,7 @@
             {
                 // Update prompt and show input
                 needsInput = true;
+                isSingleChar = inputSpec?.Mode == Engine.InputMode.SingleChar;
                 currentPrompt = inputSpec?.Prompt ?? "> ";
             }
         }
@@ -157,6 +185,18 @@
         catch
         {
             // Scrolling is optional
+        }
+    }
+
+    private async Task ClearInputField()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("eval", "document.querySelector('.game-input input').value = ''");
+        }
+        catch
+        {
+            // Clearing is optional
         }
     }
 }
