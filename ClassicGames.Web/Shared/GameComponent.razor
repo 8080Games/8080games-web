@@ -7,7 +7,7 @@
         <h2>@GameTitle</h2>
         <div class="settings">
             <label class="toggle-label">
-                <input type="checkbox" @bind="slowPrintEnabled" @bind:event="onchange" />
+                <input type="checkbox" @bind="slowPrintEnabled" @bind:event="onchange" @bind:after="OnSlowPrintChanged" />
                 <span>Slow Print</span>
             </label>
         </div>
@@ -64,11 +64,25 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && Game != null)
+        if (firstRender)
         {
-            ProcessGameOutput(Game.ProcessInput(""));
-            StateHasChanged();
-            await FocusInput();
+            // Load slow print preference from localStorage
+            try
+            {
+                slowPrintEnabled = await JS.InvokeAsync<bool>("loadSlowPrintPreference");
+                StateHasChanged();
+            }
+            catch
+            {
+                // Default to false if localStorage not available
+            }
+
+            if (Game != null)
+            {
+                ProcessGameOutput(Game.ProcessInput(""));
+                StateHasChanged();
+                await FocusInput();
+            }
         }
 
         await ScrollToBottom();
@@ -267,6 +281,18 @@
         catch
         {
             // Animation is optional
+        }
+    }
+
+    private async Task OnSlowPrintChanged()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("saveSlowPrintPreference", slowPrintEnabled);
+        }
+        catch
+        {
+            // localStorage save is optional
         }
     }
 }

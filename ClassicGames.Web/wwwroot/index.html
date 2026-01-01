@@ -26,14 +26,16 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script>
+        // Typewriter effect configuration
+        const TYPEWRITER_CHARS_PER_SECOND = 100; // Configurable speed
+
         // Typewriter effect for game output
         window.animateTypewriter = async function() {
             const outputDiv = document.querySelector('.game-output');
             if (!outputDiv) return;
 
             const divsToAnimate = outputDiv.querySelectorAll('div.needs-typewriter');
-            const charsPerSecond = 30; // Adjust speed here
-            const msPerChar = 1000 / charsPerSecond;
+            const msPerChar = 1000 / TYPEWRITER_CHARS_PER_SECOND;
 
             for (const div of divsToAnimate) {
                 const fullText = div.textContent;
@@ -45,6 +47,16 @@
                     await new Promise(resolve => setTimeout(resolve, msPerChar));
                 }
             }
+        };
+
+        // Save/load slow print preference
+        window.saveSlowPrintPreference = function(enabled) {
+            localStorage.setItem('slowPrintEnabled', enabled.toString());
+        };
+
+        window.loadSlowPrintPreference = function() {
+            const saved = localStorage.getItem('slowPrintEnabled');
+            return saved === 'true';
         };
     </script>
 </body>
