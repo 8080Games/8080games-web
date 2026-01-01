@@ -246,7 +246,9 @@
     {
         try
         {
-            await Task.Delay(50); // Give DOM time to render
+            await Task.Delay(10); // Give DOM time to render
+            await JS.InvokeVoidAsync("hideNewLines", animateFromIndex);
+            await Task.Delay(10); // Ensure hide completes
             await JS.InvokeVoidAsync("animateTypewriter", animateFromIndex);
         }
         catch

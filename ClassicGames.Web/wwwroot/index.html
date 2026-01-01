@@ -40,11 +40,25 @@
             for (const div of divsToAnimate) {
                 const fullText = div.textContent;
                 div.textContent = '';
+                div.style.visibility = 'visible'; // Make visible before animating
 
                 for (let j = 0; j < fullText.length; j++) {
                     div.textContent += fullText[j];
                     await new Promise(resolve => setTimeout(resolve, msPerChar));
                 }
+            }
+        };
+
+        // Hide new lines until they're ready to animate
+        window.hideNewLines = function(startIndex) {
+            const outputDiv = document.querySelector('.game-output');
+            if (!outputDiv) return;
+
+            const allDivs = outputDiv.querySelectorAll('div');
+            const divsToHide = Array.from(allDivs).slice(startIndex);
+
+            for (const div of divsToHide) {
+                div.style.visibility = 'hidden';
             }
         };
     </script>
