@@ -14,7 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClassicGames.Core\ClassicGames.Engine\ClassicGames.Engine.csproj" />
-    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Blackjack\ClassicGames.Games.Blackjack.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Camel\ClassicGames.Games.Camel.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Poker\ClassicGames.Games.Poker.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.StarTrader\ClassicGames.Games.StarTrader.csproj" />
   </ItemGroup>
 
   <ItemGroup>
