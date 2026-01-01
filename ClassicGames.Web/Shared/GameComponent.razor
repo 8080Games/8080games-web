@@ -95,6 +95,26 @@
         {
             gameOver = true;
             needsInput = false;
+            return;
+        }
+
+        // Check if current state needs input
+        if (Game != null)
+        {
+            var inputSpec = Game.GetCurrentInputSpec();
+            if (inputSpec?.Mode == Engine.InputMode.None)
+            {
+                // Auto-advance states that don't need input
+                needsInput = false;
+                var nextResult = Game.ProcessInput("");
+                ProcessGameOutput(nextResult);
+            }
+            else
+            {
+                // Update prompt and show input
+                needsInput = true;
+                currentPrompt = inputSpec?.Prompt ?? "> ";
+            }
         }
     }
 
