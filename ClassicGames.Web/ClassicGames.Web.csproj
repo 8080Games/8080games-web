@@ -14,10 +14,20 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ClassicGames.Core\ClassicGames.Engine\ClassicGames.Engine.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Artillery\ClassicGames.Games.Artillery.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Bagels\ClassicGames.Games.Bagels.csproj" />
     <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Blackjack\ClassicGames.Games.Blackjack.csproj" />
     <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Camel\ClassicGames.Games.Camel.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Hammurabi\ClassicGames.Games.Hammurabi.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Hangman\ClassicGames.Games.Hangman.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.HuntTheWumpus\ClassicGames.Games.HuntTheWumpus.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.LunarLander\ClassicGames.Games.LunarLander.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.OregonTrail\ClassicGames.Games.OregonTrail.csproj" />
     <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.Poker\ClassicGames.Games.Poker.csproj" />
     <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.StarTrader\ClassicGames.Games.StarTrader.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.SuperStarTrek\ClassicGames.Games.SuperStarTrek.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.TicTacToe\ClassicGames.Games.TicTacToe.csproj" />
+    <ProjectReference Include="..\ClassicGames.Games\ClassicGames.Games.TwentyThreeMatches\ClassicGames.Games.TwentyThreeMatches.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,0 +1,14 @@
+@page "/twentythreematches"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>23 Matches - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="23 Matches" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = TwentyThreeMatchesGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

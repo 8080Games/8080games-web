@@ -1,0 +1,14 @@
+@page "/hangman"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Hangman - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Hangman" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = HangmanGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

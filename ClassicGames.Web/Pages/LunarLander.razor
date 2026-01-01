@@ -1,0 +1,14 @@
+@page "/lunarlander"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Lunar Lander - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Lunar Lander" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = LunarLanderGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

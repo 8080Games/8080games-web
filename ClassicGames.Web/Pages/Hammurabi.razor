@@ -1,0 +1,14 @@
+@page "/hammurabi"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Hammurabi - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Hammurabi" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = HammurabiGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

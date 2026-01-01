@@ -1,0 +1,14 @@
+@page "/huntthewumpus"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Hunt the Wumpus - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Hunt the Wumpus" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = HuntTheWumpusGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

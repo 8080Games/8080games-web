@@ -1,0 +1,14 @@
+@page "/tictactoe"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Tic-Tac-Toe - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Tic-Tac-Toe" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = TicTacToeGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

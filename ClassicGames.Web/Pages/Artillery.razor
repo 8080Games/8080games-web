@@ -1,0 +1,29 @@
+@page "/artillery"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Artillery - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Artillery"
+               Game="@gameEngine"
+               OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+
+    protected override void OnInitialized()
+    {
+        CreateNewGame();
+    }
+
+    private void CreateNewGame()
+    {
+        gameEngine = ArtilleryGame.CreateGame();
+    }
+
+    private void HandleRestart()
+    {
+        CreateNewGame();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,14 @@
+@page "/oregontrail"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Oregon Trail - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Oregon Trail" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = OregonTrailGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

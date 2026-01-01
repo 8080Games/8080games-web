@@ -1,0 +1,14 @@
+@page "/superstartrek"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Super Star Trek - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Super Star Trek" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = SuperStarTrekGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}

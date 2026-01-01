@@ -1,0 +1,14 @@
+@page "/bagels"
+@using ClassicGames.Engine
+@using ClassicGames.Games
+
+<PageTitle>Bagels - 8080 Games</PageTitle>
+
+<GameComponent GameTitle="Bagels" Game="@gameEngine" OnRestart="@HandleRestart" />
+
+@code {
+    private GameEngine? gameEngine;
+    protected override void OnInitialized() => CreateNewGame();
+    private void CreateNewGame() => gameEngine = BagelsGame.CreateGame();
+    private void HandleRestart() { CreateNewGame(); StateHasChanged(); }
+}
