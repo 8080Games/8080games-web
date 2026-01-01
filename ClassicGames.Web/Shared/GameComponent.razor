@@ -113,7 +113,7 @@
         await FocusInput();
     }
 
-    private async void ProcessGameOutput(Engine.StateResult result)
+    private void ProcessGameOutput(Engine.StateResult result)
     {
         int newLinesCount = 0;
         if (result.Output != null)
@@ -143,8 +143,18 @@
             {
                 // Auto-advance states that don't need input
                 needsInput = false;
-                var nextResult = Game.ProcessInput("");
-                ProcessGameOutput(nextResult);
+
+                // Animate lines if slow print is enabled, then auto-advance
+                if (slowPrintEnabled && newLinesCount > 0)
+                {
+                    StateHasChanged();
+                    _ = AnimateAndAdvance(newLinesCount);
+                }
+                else
+                {
+                    var nextResult = Game.ProcessInput("");
+                    ProcessGameOutput(nextResult);
+                }
             }
             else
             {
@@ -156,9 +166,21 @@
                 // Animate new lines if slow print is enabled
                 if (slowPrintEnabled && newLinesCount > 0)
                 {
-                    await AnimateNewLines(newLinesCount);
+                    StateHasChanged();
+                    _ = AnimateNewLines(newLinesCount);
                 }
             }
+        }
+    }
+
+    private async Task AnimateAndAdvance(int lineCount)
+    {
+        await Task.Delay(50); // Give DOM time to render
+        await AnimateNewLines(lineCount);
+        if (Game != null)
+        {
+            var nextResult = Game.ProcessInput("");
+            ProcessGameOutput(nextResult);
         }
     }
 
@@ -219,6 +241,7 @@
     {
         try
         {
+            await Task.Delay(50); // Give DOM time to render
             await JS.InvokeVoidAsync("animateTypewriter", count);
         }
         catch
