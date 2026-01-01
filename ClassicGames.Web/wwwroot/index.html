@@ -25,6 +25,31 @@
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
+    <script>
+        // Typewriter effect for game output
+        window.animateTypewriter = async function(lineCount) {
+            const outputDiv = document.querySelector('.game-output');
+            if (!outputDiv) return;
+
+            const allDivs = outputDiv.querySelectorAll('div');
+            const startIndex = Math.max(0, allDivs.length - lineCount);
+            const divsToAnimate = Array.from(allDivs).slice(startIndex);
+
+            const charsPerSecond = 30; // Adjust speed here
+            const msPerChar = 1000 / charsPerSecond;
+
+            for (const div of divsToAnimate) {
+                const fullText = div.textContent;
+                div.textContent = '';
+                div.style.visibility = 'visible';
+
+                for (let i = 0; i < fullText.length; i++) {
+                    div.textContent += fullText[i];
+                    await new Promise(resolve => setTimeout(resolve, msPerChar));
+                }
+            }
+        };
+    </script>
 </body>
 
 </html>

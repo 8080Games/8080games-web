@@ -5,6 +5,12 @@
     <div class="game-header">
         <a href="/" class="back-button">← Back to Games</a>
         <h2>@GameTitle</h2>
+        <div class="settings">
+            <label class="toggle-label">
+                <input type="checkbox" @bind="slowPrintEnabled" @bind:event="onchange" />
+                <span>Slow Print</span>
+            </label>
+        </div>
     </div>
 
     <div class="game-output" @ref="outputDiv">
@@ -50,6 +56,7 @@
     private bool needsInput = true;
     private bool gameOver = false;
     private bool isSingleChar = false;
+    private bool slowPrintEnabled = false;
     private ElementReference inputElement;
     private ElementReference outputDiv;
 
@@ -106,10 +113,12 @@
         await FocusInput();
     }
 
-    private void ProcessGameOutput(Engine.StateResult result)
+    private async void ProcessGameOutput(Engine.StateResult result)
     {
+        int newLinesCount = 0;
         if (result.Output != null)
         {
+            newLinesCount = result.Output.Count;
             outputLines.AddRange(result.Output);
         }
 
@@ -143,6 +152,12 @@
                 needsInput = true;
                 isSingleChar = inputSpec?.Mode == Engine.InputMode.SingleChar;
                 currentPrompt = inputSpec?.Prompt ?? "> ";
+
+                // Animate new lines if slow print is enabled
+                if (slowPrintEnabled && newLinesCount > 0)
+                {
+                    await AnimateNewLines(newLinesCount);
+                }
             }
         }
     }
@@ -199,6 +214,18 @@
             // Clearing is optional
         }
     }
+
+    private async Task AnimateNewLines(int count)
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("animateTypewriter", count);
+        }
+        catch
+        {
+            // Animation is optional
+        }
+    }
 }
 
 <style>
@@ -218,6 +245,29 @@
         margin-bottom: 1rem;
         padding-bottom: 1rem;
         border-bottom: 1px solid #003300;
+        gap: 1rem;
+    }
+
+    .settings {
+        display: flex;
+        align-items: center;
+    }
+
+    .toggle-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #00aa00;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .toggle-label input[type="checkbox"] {
+        cursor: pointer;
+    }
+
+    .toggle-label:hover {
+        color: #00ff00;
     }
 
     .back-button {
