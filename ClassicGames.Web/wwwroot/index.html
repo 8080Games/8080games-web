@@ -27,20 +27,19 @@
     <script>navigator.serviceWorker.register('service-worker.js');</script>
     <script>
         // Typewriter effect for game output
-        window.animateTypewriter = async function(lines) {
+        window.animateTypewriter = async function(startIndex) {
             const outputDiv = document.querySelector('.game-output');
             if (!outputDiv) return;
 
             const allDivs = outputDiv.querySelectorAll('div');
-            const startIndex = Math.max(0, allDivs.length - lines.length);
             const divsToAnimate = Array.from(allDivs).slice(startIndex);
 
             const charsPerSecond = 30; // Adjust speed here
             const msPerChar = 1000 / charsPerSecond;
 
-            for (let i = 0; i < divsToAnimate.length && i < lines.length; i++) {
-                const div = divsToAnimate[i];
-                const fullText = lines[i];
+            for (const div of divsToAnimate) {
+                const fullText = div.textContent;
+                div.textContent = '';
 
                 for (let j = 0; j < fullText.length; j++) {
                     div.textContent += fullText[j];

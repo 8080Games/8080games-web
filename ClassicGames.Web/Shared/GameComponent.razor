@@ -14,9 +14,9 @@
     </div>
 
     <div class="game-output" @ref="outputDiv">
-        @foreach (var line in outputLines)
+        @for (int i = 0; i < outputLines.Count; i++)
         {
-            <div>@line</div>
+            <div data-line-index="@i">@outputLines[i]</div>
         }
     </div>
 
@@ -51,7 +51,7 @@
     public GameEngine? Game { get; set; }
 
     private List<string> outputLines = new();
-    private List<string> pendingAnimationLines = new();
+    private int animateFromIndex = -1;
     private string currentInput = "";
     private string currentPrompt = "> ";
     private bool needsInput = true;
@@ -116,23 +116,15 @@
 
     private void ProcessGameOutput(Engine.StateResult result)
     {
-        int newLinesCount = 0;
+        bool shouldAnimate = false;
         if (result.Output != null && result.Output.Count > 0)
         {
-            newLinesCount = result.Output.Count;
-
             if (slowPrintEnabled)
             {
-                // Store actual text for animation
-                pendingAnimationLines = new List<string>(result.Output);
-                // Add empty placeholders
-                outputLines.AddRange(result.Output.Select(x => ""));
+                animateFromIndex = outputLines.Count;
+                shouldAnimate = true;
             }
-            else
-            {
-                // Add lines normally when slow print is disabled
-                outputLines.AddRange(result.Output);
-            }
+            outputLines.AddRange(result.Output);
         }
 
         // Check if game is over by looking at state name or output
@@ -158,7 +150,7 @@
                 needsInput = false;
 
                 // Animate lines if slow print is enabled, then auto-advance
-                if (slowPrintEnabled && newLinesCount > 0)
+                if (shouldAnimate)
                 {
                     StateHasChanged();
                     _ = AnimateAndAdvance();
@@ -177,7 +169,7 @@
                 currentPrompt = inputSpec?.Prompt ?? "> ";
 
                 // Animate new lines if slow print is enabled
-                if (slowPrintEnabled && newLinesCount > 0)
+                if (shouldAnimate)
                 {
                     StateHasChanged();
                     _ = AnimateNewLines();
@@ -255,7 +247,7 @@
         try
         {
             await Task.Delay(50); // Give DOM time to render
-            await JS.InvokeVoidAsync("animateTypewriter", pendingAnimationLines.ToArray());
+            await JS.InvokeVoidAsync("animateTypewriter", animateFromIndex);
         }
         catch
         {
