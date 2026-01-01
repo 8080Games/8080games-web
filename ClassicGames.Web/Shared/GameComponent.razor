@@ -173,7 +173,7 @@
                 if (shouldAnimate)
                 {
                     StateHasChanged();
-                    _ = AnimateNewLines();
+                    _ = AnimateNewLinesAndRestoreFocus();
                 }
             }
         }
@@ -248,6 +248,20 @@
         try
         {
             await Task.Delay(50); // Give DOM time to render
+            await JS.InvokeVoidAsync("animateTypewriter");
+        }
+        catch
+        {
+            // Animation is optional
+        }
+    }
+
+    private async Task AnimateNewLinesAndRestoreFocus()
+    {
+        try
+        {
+            await Task.Delay(50); // Give DOM time to render
+            await FocusInput(); // Restore focus immediately
             await JS.InvokeVoidAsync("animateTypewriter");
         }
         catch
